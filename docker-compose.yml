@@ -1,26 +1,13 @@
-version: "3.8"
+version: "3"
 services:
-  api:
-    container_name: api
-    restart: always
-    build: .
-    ports:
-      - ${PORT}:${PORT}
-    depends_on:
-      - db
-    volumes:
-      - .:/usr/src/app
-
-  db:
+  postgres:
+    image: postgres:latest
     container_name: postgres
-    image: postgres
     ports:
-      - "5433:${DB_PORT}"
+      - "6500:5432"
     volumes:
-      - data:/data/db
-    environment:
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
-
+      - progresDB:/var/lib/postgresql/data
+    env_file:
+      - ./.env
 volumes:
-  data: {}
+  progresDB:
