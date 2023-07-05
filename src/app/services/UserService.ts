@@ -1,4 +1,4 @@
-import { UserProps } from "../../types/UserInterface";
+import { UserProps } from "../../types/User";
 import { AppDataSource } from "../../utils/data-source";
 import { User } from "../entity/User";
 
@@ -7,7 +7,6 @@ class UserService {
     const usersRepository = AppDataSource.getRepository(User);
 
     const users = await usersRepository.find();
-
     return users;
   }
 

@@ -5,12 +5,11 @@ import { AppDataSource } from "./utils/data-source";
 
 const express = require("express");
 const cors = require("./app/middlewares/cors");
-const routes = require("./routes");
+const routes = require("./routes/index");
 const errorHandler = require("./app/middlewares/errorHandler");
 
 AppDataSource.initialize()
   .then(async () => {
-    // VALIDATE ENV
     validateEnv();
 
     const app = express();
