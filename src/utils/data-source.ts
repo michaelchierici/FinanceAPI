@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
   database: "node_typeorm",
   synchronize: true,
   logging: false,
-  entities: [User],
-  migrations: [],
+  entities: [`src/app/entity/*.[jt]s`],
+  migrations: [`src/migrations/*/.[jt]s`],
   subscribers: [],
 });
