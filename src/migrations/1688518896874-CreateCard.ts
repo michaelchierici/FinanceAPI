@@ -27,7 +27,7 @@ export default class CreateProfile1600016576988 implements MigrationInterface {
             name: "providerCard",
             referencedTableName: "user",
             referencedColumnNames: ["id"],
-            columnNames: ["user_id"],
+            columnNames: ["user"],
             onDelete: "CASCADE",
             onUpdate: "CASCADE",
           },

@@ -10,8 +10,13 @@ class CardController {
   }
 
   async store(request: Request, response: Response) {
-    const { nickname, cardNumber, limit } = request.body;
-    const card = await CardService.create({ nickname, cardNumber, limit });
+    const { nickname, cardNumber, limit, user_id } = request.body;
+    const card = await CardService.create({
+      nickname,
+      cardNumber,
+      limit,
+      user_id,
+    });
 
     response.json(card);
   }

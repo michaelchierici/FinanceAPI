@@ -35,7 +35,7 @@ export default class CreateUser1600016590838 implements MigrationInterface {
             name: "providerUser",
             referencedTableName: "card",
             referencedColumnNames: ["id"],
-            columnNames: ["card_id"],
+            columnNames: ["cards"],
             onDelete: "CASCADE",
             onUpdate: "CASCADE",
           },
