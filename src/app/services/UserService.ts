@@ -43,34 +43,38 @@ class UserService {
     const userRepository = AppDataSource.getRepository(User);
     const cardRepository = AppDataSource.getRepository(Card);
 
-    const cardIds = cards_ids.map((card: CardProps) => card);
+    const user = await userRepository.findOne({
+      where: { id },
+    });
 
-    const newCards = await cardRepository
-      .createQueryBuilder("card")
-      .where("card.id IN (:...ids)", { ids: cardIds })
-      .getMany();
+    const newCards = cards_ids
+      ? await cardRepository
+          .createQueryBuilder("card")
+          .where("card.id IN (:...ids)", { ids: cards_ids })
+          .getMany()
+      : [];
 
-    const userCards = await userRepository
-      .createQueryBuilder("user")
-      .leftJoinAndSelect("user.cards", "cards")
-      .select(["user.id", "cards"])
-      .where("user.id = :id", { id })
-      .getOne();
+    const cards = [...new Set(newCards!.flat())];
 
-    const mergedCards = [userCards?.cards, newCards];
-    const cards: any = [...new Set(mergedCards.flat())];
+    userRepository.merge(user!, {
+      name,
+      age,
+      job,
+      cards,
+    });
 
-    const user = await userRepository
-      .createQueryBuilder()
-      .update(User)
-      .set({
-        name,
-        age,
-        job,
-        cards,
-      })
-      .where("id = :id", { id })
-      .execute();
+    await userRepository.save(user!);
+
+    return user;
+  }
+
+  async delete({ id }: UserProps) {
+    const userRepository = AppDataSource.getRepository(User);
+    const cardRepository = AppDataSource.getRepository(Card);
+
+    const user = await userRepository.findOne({ where: { id } });
+
+    await userRepository.softDelete(user!);
 
     return user;
   }

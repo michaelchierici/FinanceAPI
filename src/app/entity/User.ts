@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  JoinTable,
+} from "typeorm";
 import { Card } from "./Card";
 
 @Entity()
@@ -15,6 +21,9 @@ export class User {
   @Column()
   age: string;
 
-  @OneToMany(() => Card, (card) => card.user)
+  @OneToMany(() => Card, (card) => card.user, {
+    eager: true,
+  })
+  @JoinTable()
   cards: Card[];
 }

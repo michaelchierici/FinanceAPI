@@ -30,6 +30,14 @@ class UserController {
 
     return response.status(200).json(user);
   }
+
+  async delete(request: Request, response: Response) {
+    const { id } = request.params;
+
+    await UserService.delete({ id });
+
+    response.status(200);
+  }
 }
 
 module.exports = new UserController();
