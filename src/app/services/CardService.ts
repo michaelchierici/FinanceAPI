@@ -1,7 +1,5 @@
 import { Card } from "../entity/Card";
-import { User } from "../entity/User";
 import { AppDataSource } from "../../utils/data-source";
-import { CardProps } from "../../types/Card";
 
 class CardService {
   async findAll() {
@@ -14,7 +12,7 @@ class CardService {
     return cards;
   }
 
-  async create({ nickname, cardNumber, limit, user }: CardProps) {
+  async create({ nickname, cardNumber, limit, user }: Card) {
     const cardsReporsitory = AppDataSource.getRepository(Card);
 
     const cardToBeCreated = {
@@ -28,8 +26,26 @@ class CardService {
     return card;
   }
 
-  async addCards({ cards, id }: User) {
+  async update({ id, nickname }: Card) {
     const cardRepository = AppDataSource.getRepository(Card);
+
+    const card = await cardRepository.findOne({ where: { id } });
+
+    cardRepository.merge(card!, {
+      nickname,
+    });
+
+    await cardRepository.save(card!);
+
+    return card;
+  }
+
+  async delete({ id }: Card) {
+    const cardRepository = AppDataSource.getRepository(Card);
+
+    const card = await cardRepository.findOne({ where: { id } });
+
+    await cardRepository.softRemove(card!);
   }
 }
 

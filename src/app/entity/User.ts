@@ -33,7 +33,6 @@ export class User {
 
   @OneToMany(() => Card, (card) => card.user, {
     eager: true,
-    cascade: ["soft-remove"],
   })
   @JoinColumn()
   cards: Card[];

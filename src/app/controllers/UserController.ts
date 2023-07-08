@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 const UserService = require("../services/UserService");
+const isValidUUID = require("../../utils/isValidUUID");
 
 class UserController {
   async index(request: Request, response: Response) {
@@ -9,6 +10,10 @@ class UserController {
 
   async findOne(request: Request, response: Response) {
     const { id } = request.params;
+
+    if (!isValidUUID(id)) {
+      return response.status(404).json({ error: "id de usuário invalido" });
+    }
 
     const user = await UserService.findById({ id });
 
@@ -43,15 +48,31 @@ class UserController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, age, job } = request.body;
+    const { name, age, job, cards } = request.body;
 
-    const user = await UserService.update({ id, name, age, job });
+    if (!isValidUUID(id)) {
+      return response.status(404).json({ error: "id de usuário invalido" });
+    }
+
+    const userHasEnoughCards = await UserService.findById({ id });
+
+    if (cards && userHasEnoughCards.cards.length >= 3) {
+      return response
+        .status(404)
+        .json({ error: "Usuário possui o limite máximo de cartões" });
+    }
+
+    const user = await UserService.update({ id, name, age, job, cards });
 
     return response.status(200).json(user);
   }
 
   async delete(request: Request, response: Response) {
     const { id } = request.params;
+
+    if (!isValidUUID(id)) {
+      return response.status(404).json({ error: "id de usuário invalido" });
+    }
 
     await UserService.delete({ id });
 

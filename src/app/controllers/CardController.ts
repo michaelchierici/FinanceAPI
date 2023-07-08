@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 const CardService = require("../services/CardService");
 const UserService = require("../services/UserService");
+const isValidUUID = require("../../utils/isValidUUID");
 
 class CardController {
   async index(request: Request, response: Response) {
@@ -22,17 +23,31 @@ class CardController {
     response.json(card);
   }
 
-  async addCard(request: Request, response: Response) {
+  async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { cards } = request.body;
+    const { nickname } = request.body;
 
-    const user = await UserService.findById({ id });
-
-    if (user.cards.length === 3) {
-      return response
-        .status(404)
-        .json({ error: "Usuário já possui o limite máximo de cartões" });
+    if (!isValidUUID(id)) {
+      return response.status(404).json({ error: "id de cartão invalido" });
     }
+
+    if (!nickname) {
+      return response.status(404).json({ error: "Nome é obrigatório" });
+    }
+
+    const card = await CardService.update({ id, nickname });
+
+    return response.status(200).json(card);
+  }
+
+  async delete(request: Request, response: Response) {
+    const { id } = request.params;
+    if (!isValidUUID(id)) {
+      return response.status(404).json({ error: "id de cartão invalido" });
+    }
+    await CardService.delete({ id });
+
+    return response.sendStatus(204);
   }
 }
 

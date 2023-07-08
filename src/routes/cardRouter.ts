@@ -7,6 +7,8 @@ cardRouter.get("/", CardController.index);
 
 cardRouter.post("/", CardController.store);
 
-cardRouter.patch("/add/:id", CardController.addCard);
+cardRouter.patch("/:id", CardController.update);
+
+cardRouter.delete("/:id", CardController.delete);
 
 export { cardRouter };
