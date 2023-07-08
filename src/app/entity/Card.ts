@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { User } from "./User";
 
 @Entity()
@@ -15,6 +23,15 @@ export class Card {
   @Column()
   limit: string;
 
+  @Column()
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @Column()
+  @DeleteDateColumn()
+  deletedAt?: Date;
+
   @ManyToOne(() => User, (user) => user.cards)
+  @JoinColumn()
   user: User;
 }

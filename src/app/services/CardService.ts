@@ -1,7 +1,7 @@
-import { AppDataSource } from "../../utils/data-source";
 import { Card } from "../entity/Card";
-import { CardProps } from "../../types/Card";
 import { User } from "../entity/User";
+import { AppDataSource } from "../../utils/data-source";
+import { CardProps } from "../../types/Card";
 
 class CardService {
   async findAll() {
@@ -26,6 +26,10 @@ class CardService {
 
     const card = await cardsReporsitory.save(cardToBeCreated);
     return card;
+  }
+
+  async addCards({ cards, id }: User) {
+    const cardRepository = AppDataSource.getRepository(Card);
   }
 }
 

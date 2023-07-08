@@ -1,6 +1,5 @@
-const UserController = require("../app/controllers/UserController");
-
 const { Router } = require("express");
+const UserController = require("../app/controllers/UserController");
 
 const userRouter = Router();
 
@@ -10,7 +9,7 @@ userRouter.get("/:id", UserController.findOne);
 
 userRouter.post("/", UserController.store);
 
-userRouter.patch("/:id", UserController.update);
+userRouter.put("/:id", UserController.update);
 
 userRouter.delete("/:id", UserController.delete);
 

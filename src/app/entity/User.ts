@@ -3,7 +3,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  JoinTable,
+  JoinColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from "typeorm";
 import { Card } from "./Card";
 
@@ -21,9 +23,18 @@ export class User {
   @Column()
   age: string;
 
+  @Column()
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @Column()
+  @DeleteDateColumn()
+  deletedAt?: Date;
+
   @OneToMany(() => Card, (card) => card.user, {
     eager: true,
+    cascade: ["soft-remove"],
   })
-  @JoinTable()
+  @JoinColumn()
   cards: Card[];
 }

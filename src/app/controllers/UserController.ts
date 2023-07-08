@@ -12,11 +12,30 @@ class UserController {
 
     const user = await UserService.findById({ id });
 
-    response.status(200).json(user);
+    if (!user) {
+      return response.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    response.json(user);
   }
 
   async store(request: Request, response: Response) {
     const { name, job, age } = request.body;
+
+    if (!name) {
+      return response.status(400).json({ error: "Campo Nome é obritagório" });
+    }
+
+    if (!job) {
+      return response
+        .status(400)
+        .json({ error: "Campo Emprego é obritagório" });
+    }
+
+    if (!age) {
+      return response.status(400).json({ error: "Campo Idade é obritagório" });
+    }
+
     const user = await UserService.create({ name, job, age });
 
     response.json(user);
@@ -24,9 +43,9 @@ class UserController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, age, job, cards_ids } = request.body;
+    const { name, age, job } = request.body;
 
-    const user = await UserService.update({ id, name, age, job, cards_ids });
+    const user = await UserService.update({ id, name, age, job });
 
     return response.status(200).json(user);
   }
@@ -36,7 +55,7 @@ class UserController {
 
     await UserService.delete({ id });
 
-    response.status(200);
+    response.sendStatus(204);
   }
 }
 
