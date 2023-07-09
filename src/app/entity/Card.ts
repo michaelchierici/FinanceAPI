@@ -23,6 +23,9 @@ export class Card {
   @Column()
   limit: string;
 
+  @Column({ nullable: true })
+  flag: string;
+
   @Column()
   @UpdateDateColumn()
   updatedAt?: Date;
@@ -31,7 +34,9 @@ export class Card {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => User, (user) => user.cards)
+  @ManyToOne(() => User, (user) => user.cards, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   user: User;
 }

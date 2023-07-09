@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-
 const CardService = require("../services/CardService");
-const UserService = require("../services/UserService");
 const isValidUUID = require("../../utils/isValidUUID");
 
 class CardController {
@@ -12,12 +10,25 @@ class CardController {
   }
 
   async store(request: Request, response: Response) {
-    const { nickname, cardNumber, limit, user_id } = request.body;
+    const { nickname, limit, flag, user } = request.body;
+
+    if (!nickname) {
+      return response
+        .status(404)
+        .json({ error: "Nome do cartão é obritagório" });
+    }
+
+    if (!flag) {
+      return response
+        .status(404)
+        .json({ error: "Selecione a bandeira do cartão" });
+    }
+
     const card = await CardService.create({
       nickname,
-      cardNumber,
       limit,
-      user_id,
+      flag,
+      user,
     });
 
     response.json(card);

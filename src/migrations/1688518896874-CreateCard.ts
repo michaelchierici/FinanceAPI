@@ -21,6 +21,10 @@ export default class CreateProfile1600016576988 implements MigrationInterface {
             name: "limit",
             type: "varchar(200)",
           },
+          {
+            name: "flag",
+            type: "varchar(200)",
+          },
         ],
         foreignKeys: [
           {

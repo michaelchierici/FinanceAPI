@@ -10,10 +10,7 @@ class UserService {
   async findAll() {
     const usersRepository = AppDataSource.getRepository(User);
 
-    const users = await usersRepository
-      .createQueryBuilder("user")
-      .leftJoinAndSelect("user.cards", "cards")
-      .getMany();
+    const users = await usersRepository.find();
     return users;
   }
 
@@ -43,10 +40,10 @@ class UserService {
     const userRepository = AppDataSource.getRepository(User);
     const cardRepository = AppDataSource.getRepository(Card);
 
-    let cardsTobeAdded: CardProps[] = cards;
+    let cardsTobeAdded = cards;
 
     async function getCardsWithNoUser() {
-      const cardsIds = cards.map((card: CardProps) => card.id);
+      const cardsIds = cards.map((card: Card) => card.id);
       const cardsWithoutUser = await cardRepository.find({
         where: { id: In(cardsIds), user: IsNull() },
       });
@@ -75,7 +72,7 @@ class UserService {
 
     const user = await userRepository.findOne({ where: { id } });
 
-    await userRepository.softRemove(user!);
+    await userRepository.remove(user!);
 
     return user;
   }
