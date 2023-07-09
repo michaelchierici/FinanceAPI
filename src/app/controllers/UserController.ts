@@ -12,7 +12,7 @@ class UserController {
     const { id } = request.params;
 
     if (!isValidUUID(id)) {
-      return response.status(404).json({ error: "id de usuário invalido" });
+      return response.status(400).json({ error: "id de usuário invalido" });
     }
 
     const user = await UserService.findById({ id });
@@ -51,7 +51,7 @@ class UserController {
     const { name, age, job, cards } = request.body;
 
     if (!isValidUUID(id)) {
-      return response.status(404).json({ error: "id de usuário invalido" });
+      return response.status(400).json({ error: "id de usuário invalido" });
     }
 
     const userHasEnoughCards = await UserService.findById({ id });

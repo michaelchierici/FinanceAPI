@@ -39,11 +39,11 @@ class CardController {
     const { nickname } = request.body;
 
     if (!isValidUUID(id)) {
-      return response.status(404).json({ error: "id de cartão invalido" });
+      return response.status(400).json({ error: "id de cartão invalido" });
     }
 
     if (!nickname) {
-      return response.status(404).json({ error: "Nome é obrigatório" });
+      return response.status(400).json({ error: "Nome é obrigatório" });
     }
 
     const card = await CardService.update({ id, nickname });
