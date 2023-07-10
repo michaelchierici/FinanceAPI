@@ -7,8 +7,8 @@
     username: "root",
     password: "root",
     database: "node_typeorm",
-    entities: ["./src/app/entities/**/*.ts"],
-    migrations: ["./src/migrations/**/*.ts"],
+    entities: ["src/app/entity/**/*.ts"],
+    migrations: ["src/migrations/**/*.ts"],
     cli: {
       migrationsDir: "./src/migrations/",
     },

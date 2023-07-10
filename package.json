@@ -26,8 +26,9 @@
    },
    "scripts": {
       "start": "ts-node-dev --respawn --transpile-only --exit-child src/index.ts",
-      "typeorm": "typeorm-ts-node-commonjs",
-      "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -d ./ormconfig.ts",
+      "build": "tsc",
+      "typeorm": "typeorm-ts-node-commonjs -d src/utils/data-source.ts",
+      "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -d src/utils/data-source.ts",
       "migration:up": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d ./ormconfig.ts",
       "migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert -d ./ormconfig.ts"
    }

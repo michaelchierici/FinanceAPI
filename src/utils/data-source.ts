@@ -9,8 +9,8 @@ export const AppDataSource = new DataSource({
   password: "root",
   database: "node_typeorm",
   synchronize: true,
-  logging: false,
-  entities: [`src/app/entity/*.[jt]s`],
-  migrations: [`src/migrations/**/*.ts`],
+  logging: true,
+  entities: ["src/app/entity/**/*{.js,.ts}"],
+  migrations: ["src/migrations/**/*{.js,.ts}"],
   subscribers: [],
 });
