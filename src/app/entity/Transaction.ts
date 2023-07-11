@@ -6,27 +6,23 @@ import {
   JoinColumn,
   DeleteDateColumn,
   UpdateDateColumn,
-  OneToMany,
 } from "typeorm";
 import { User } from "./User";
-import { Transaction } from "./Transaction";
+import { Card } from "./Card";
 
 @Entity()
-export class Card {
+export class Transaction {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
-  nickname: string;
+  name: string;
 
   @Column()
-  cardNumber: string;
-
-  @Column()
-  limit: string;
+  value: string;
 
   @Column({ nullable: true })
-  flag: string;
+  transaction_date: string;
 
   @Column()
   @UpdateDateColumn()
@@ -36,15 +32,9 @@ export class Card {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => User, (user) => user.cards, {
+  @ManyToOne(() => Card, (card) => card.transactions, {
     onDelete: "CASCADE",
   })
   @JoinColumn()
-  user: User;
-
-  @OneToMany(() => Transaction, (transaction) => transaction.card, {
-    eager: true,
-  })
-  @JoinColumn()
-  transactions: Transaction[];
+  card: Card;
 }

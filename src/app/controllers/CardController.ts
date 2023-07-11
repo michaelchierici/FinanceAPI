@@ -31,7 +31,7 @@ class CardController {
       user,
     });
 
-    response.json(card);
+    return response.json(card);
   }
 
   async update(request: Request, response: Response) {
