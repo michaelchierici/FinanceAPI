@@ -22,8 +22,8 @@ export class Card {
   @Column()
   cardNumber: string;
 
-  @Column()
-  limit: string;
+  @Column({ nullable: true })
+  limit: number;
 
   @Column({ nullable: true })
   flag: string;

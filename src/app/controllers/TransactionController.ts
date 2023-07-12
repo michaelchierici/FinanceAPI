@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
 
 const TransactionService = require("../services/TransactionService");
+const CardService = require("../services/CardService");
 const isValidUUID = require("../../utils/isValidUUID");
 
 class TransactionController {
   async index(request: Request, response: Response) {
-    const { user_id } = request.params;
+    const { id } = request.params;
     const { card_id } = request.query;
+
+    const user_id = id;
 
     const transactions = await TransactionService.findAll({
       user_id,
@@ -17,8 +20,17 @@ class TransactionController {
   }
 
   async store(request: Request, response: Response) {
-    const { card_id } = request.params;
+    const { id } = request.params;
     const { name, value, transaction_date } = request.body;
+    const card_id = id;
+
+    const card = await CardService.findById({ card_id });
+
+    if (card.limit === 0 || value > card.limit) {
+      return response
+        .status(400)
+        .json({ erro: "Cartão não tem limite disponível" });
+    }
 
     if (!name && !value && !transaction_date) {
       return response
@@ -37,15 +49,15 @@ class TransactionController {
   }
 
   async update(request: Request, response: Response) {
-    const { transaction_id } = request.query;
+    const { id } = request.params;
     const { name, transaction_date } = request.body;
 
-    if (!isValidUUID(transaction_id)) {
+    if (!isValidUUID(id)) {
       return response.status(400).json({ error: "id da transação invalido" });
     }
 
     const transaction = await TransactionService.update({
-      transaction_id,
+      id,
       name,
       transaction_date,
     });
@@ -54,13 +66,13 @@ class TransactionController {
   }
 
   async delete(request: Request, response: Response) {
-    const { transaction_id } = request.params;
+    const { id } = request.params;
 
-    if (!isValidUUID(transaction_id)) {
+    if (!isValidUUID(id)) {
       return response.status(400).json({ error: "id da transação invalido" });
     }
 
-    await TransactionService.delete({ transaction_id });
+    await TransactionService.delete({ id });
 
     return response.sendStatus(204);
   }

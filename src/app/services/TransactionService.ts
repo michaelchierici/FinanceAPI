@@ -16,7 +16,7 @@ class TransactionService {
       return transactionsByCard;
     }
 
-    const allCardsTransactions = await cardRepository.findBy({
+    const allCardsTransactions = await cardRepository.findOneBy({
       user: { id: user_id },
     });
 
@@ -26,6 +26,11 @@ class TransactionService {
   async create({ card_id, name, value, transaction_date }: TransactionProps) {
     const transactionRepository = AppDataSource.getRepository(Transaction);
     const cardRepository = AppDataSource.getRepository(Card);
+
+    const card = await cardRepository.findOne({
+      where: { id: card_id },
+      select: ["transactions"],
+    });
 
     const newTransaction = [
       {
@@ -39,12 +44,9 @@ class TransactionService {
       newTransaction
     );
 
-    const card = await cardRepository.findOne({
-      where: { id: card_id },
-      select: ["transactions"],
-    });
-
     cardRepository.merge(card!, {
+      ...card,
+      limit: card?.limit! - value,
       transactions: transaction,
     });
 
@@ -53,13 +55,14 @@ class TransactionService {
     return card;
   }
 
-  async update({ id, name }: Transaction) {
+  async update({ id, name, transaction_date }: Transaction) {
     const transactionRepository = AppDataSource.getRepository(Transaction);
 
     const transaction = await transactionRepository.findOne({ where: { id } });
 
     transactionRepository.merge(transaction!, {
       name,
+      transaction_date,
     });
 
     await transactionRepository.save(transaction!);
@@ -68,11 +71,11 @@ class TransactionService {
   }
 
   async delete({ id }: Card) {
-    const cardRepository = AppDataSource.getRepository(Card);
+    const transactionRepository = AppDataSource.getRepository(Transaction);
 
-    const card = await cardRepository.findOne({ where: { id } });
+    const transaction = await transactionRepository.findOne({ where: { id } });
 
-    await cardRepository.remove(card!);
+    await transactionRepository.remove(transaction!);
   }
 }
 

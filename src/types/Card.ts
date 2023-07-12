@@ -5,6 +5,6 @@ export interface CardProps {
   nickname: string;
   cardNumber: string;
   flag: "Visa" | "Master";
-  limit: string;
+  limit: number;
   user: User;
 }

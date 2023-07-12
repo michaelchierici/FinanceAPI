@@ -11,6 +11,14 @@ class CardService {
     return cards;
   }
 
+  async findById({ card_id }: any) {
+    const cardRepository = AppDataSource.getRepository(Card);
+
+    const card = await cardRepository.findOneBy({ id: card_id });
+
+    return card;
+  }
+
   async create({ nickname, limit, user, flag }: CardProps) {
     const cardsReporsitory = AppDataSource.getRepository(Card);
 

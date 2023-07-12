@@ -18,8 +18,8 @@ export class Transaction {
   @Column()
   name: string;
 
-  @Column()
-  value: string;
+  @Column({ nullable: true })
+  value: number;
 
   @Column({ nullable: true })
   transaction_date: string;
@@ -32,9 +32,7 @@ export class Transaction {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => Card, (card) => card.transactions, {
-    onDelete: "CASCADE",
-  })
+  @ManyToOne(() => Card, (card) => card.transactions)
   @JoinColumn()
   card: Card;
 }
