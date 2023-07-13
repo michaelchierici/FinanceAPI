@@ -2,11 +2,13 @@
 
 /build
 
+# enviroments
+.env
+
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
-
 # debug
 npm-debug.log*
 yarn-debug.log*

@@ -1,7 +1,42 @@
-# Awesome Project Build with TypeORM
+<h1 align="center">:file_cabinet: FinanceAPI</h1>
 
-Steps to run this project:
+## :memo: Descrição
 
-1. Run `npm i` command
-2. Setup database settings inside `data-source.ts` file
-3. Run `npm start` command
+Projeto se trata de uma API onde é possível criar um usuário, associar cartões ao usuário e criar transações para cada cartão desejado
+onde existe um limite definido para cada cartão.
+
+## :books: Funcionalidades
+
+- <b>CRUD de Usuários</b>
+- <b>CRUD de Cartões</b>
+- <b>CRUD de Transações</b>
+
+## :wrench: Tecnologias utilizadas
+
+- Node-JS;
+- Typeorm;
+- PostgresSQL;
+- Docker;
+
+## :rocket: Rodando o projeto
+
+Para rodar o repositório é necessário possuir o docker instalado na sua máquina, clonar o mesmo e com o docker já iniciado
+rodar o seguinte comando no terminal para que o docker possa baixar a imagem do postgres e inciar o container:
+
+```
+docker-compose up -d
+```
+
+Instalar dependências:
+
+```
+npm install ou yarn
+
+```
+
+iniciar o projeto
+
+```
+npm start ou yarn start
+
+```
