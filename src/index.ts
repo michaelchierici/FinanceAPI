@@ -13,12 +13,13 @@ AppDataSource.initialize()
     validateEnv();
 
     const app = express();
+    const port = process.env.PORT;
 
     app.use(express.json());
     app.use(cors);
     app.use(routes);
     app.use(errorHandler);
 
-    app.listen(8000, () => console.log("http://localhost:8000"));
+    app.listen(port, () => console.log(`http://localhost:${port}`));
   })
   .catch((error) => console.log(error));
