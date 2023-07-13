@@ -31,12 +31,10 @@ Instalar dependências:
 
 ```
 npm install ou yarn
-
 ```
 
-iniciar o projeto
+iniciar o projeto:
 
 ```
 npm start ou yarn start
-
 ```
